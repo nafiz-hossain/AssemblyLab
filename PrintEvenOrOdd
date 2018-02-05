@@ -1,0 +1,45 @@
+section .data
+	
+	fmt: dd "%d", 0
+	fmt2: db "Number is even", 10, 0
+	fmt3: db "Number is odd", 10, 0
+
+
+section .bss
+	x: resq 1
+	
+
+
+section .text
+
+	global main
+	extern scanf
+	extern printf
+
+	main:
+	push RBP
+	mov RDI, fmt
+	mov RSI, x
+	mov RAX, 0
+	call scanf
+
+
+	
+	mov RSI, [x]
+        and RSI,1
+        xor RSI,1
+	jle .case1
+	jmp .case2
+.case1:
+        mov RDI, fmt3
+	jmp .end
+ .case2:
+        mov RDI, fmt2 
+	jmp .end
+
+.end:
+        mov RAX,0
+        call printf
+	mov RAX, 0
+	pop RBP
+	ret
