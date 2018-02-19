@@ -1,0 +1,70 @@
+segment .data
+fmt: db "%d",0
+fmt2: db "The sum = %d",10,0
+fmt3: db  "%d ",0
+
+
+segment .bss
+H1: resq 50
+H2: resq 1
+
+
+segment .text
+
+global main
+extern scanf
+extern printf
+
+main:
+push RBP
+XOR RCX, RCX
+XOR r10,r10   
+   
+lp:
+mov RDI, fmt
+mov RAX, RCX
+add RAX,H1
+mov RSI, RAX
+
+push r10
+push RCX
+push RAX
+mov RAX,0
+call scanf
+pop RAX
+pop RCX
+pop r10
+add RCX,8
+add r10,[RAX]
+
+cmp RCX,17
+jle lp
+
+mov RDI, fmt2
+mov RSI, r10
+mov RAX, 0
+call printf
+
+
+XOR RCX, RCX
+XOR RAX,RAX
+
+lp_otpt:
+mov RDI, fmt3
+mov RAX, RCX
+add RAX,H1
+mov RSI, [RAX]
+push RCX
+push RAX
+mov RAX,0
+
+call printf
+pop RAX
+pop RCX
+add RCX,8
+cmp RCX,17
+jle lp_otpt
+
+mov RAX, 0
+pop RBP
+ret
